@@ -21,32 +21,42 @@ const ListUsers = () => {
   const pageSize = 10;
 
   const fetchUsers = async (page = 1, query = '', status = '') => {
-    setLoading(true);
-    try {
-      let response;
-      if (query) {
-        response = await userAPI.searchUsers(query, page, pageSize);
-        setSearching(true);
-      } else {
-        response = await userAPI.getUsers(page, pageSize);
-        setSearching(false);
-      }
+  setLoading(true);
+  try {
+    let response;
+    let usersData = [];
+    let total = 0;
+    let current = page;
 
-      let filteredUsers = response.data.data;
-      if (status) {
-        filteredUsers = filteredUsers.filter(user => user.status === status);
-      }
-
-      setUsers(filteredUsers);
-      setTotalUsers(response.data.total);
-      setCurrentPage(response.data.page);
-    } catch (error) {
-      message.error('Failed to fetch users');
-      console.error('Error fetching users:', error);
-    } finally {
-      setLoading(false);
+    if (query) {
+      response = await userAPI.searchUsers(query, page, pageSize);
+      usersData = response.data.data || [];
+      total = usersData.length; // ✅ search may not return total
+      setSearching(true);
+    } else {
+      response = await userAPI.getUsers(page, pageSize);
+      usersData = response.data.data || [];
+      total = response.data.total || usersData.length;
+      current = response.data.page || page;
+      setSearching(false);
     }
-  };
+
+    if (status) {
+      usersData = usersData.filter(user => user.status === status);
+    }
+
+    setUsers(usersData);
+    setTotalUsers(total);
+    setCurrentPage(current);
+
+  } catch (error) {
+    message.error('Failed to fetch users');
+    console.error('Error fetching users:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchUsers();
