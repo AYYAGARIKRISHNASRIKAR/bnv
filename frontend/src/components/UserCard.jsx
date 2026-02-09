@@ -18,7 +18,7 @@ const UserCard = ({ user, onBack }) => {
           <div className="flex flex-col items-center">
             <Avatar
               size={120}
-              src={user.profileImage ? `http://localhost:5000${user.profileImage}` : null}
+              src={user.profileImage ? `https://bnv-zscq.onrender.com${user.profileImage}` : null}
               style={{ backgroundColor: '#1890ff' }}
             >
               {user.firstName?.[0]?.toUpperCase()}{user.lastName?.[0]?.toUpperCase()}
