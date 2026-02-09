@@ -10,6 +10,10 @@ export const userAPI = {
   getUsers: (page = 1, limit = 10) =>
     api.get(`/users?page=${page}&limit=${limit}`),
 
+  // Get single user (✅ REQUIRED)
+  getUserById: (id) =>
+    api.get(`/users/${id}`),
+
   // Search users
   searchUsers: (query, page = 1, limit = 10) =>
     api.get(`/users/search?query=${query}&page=${page}&limit=${limit}`),
