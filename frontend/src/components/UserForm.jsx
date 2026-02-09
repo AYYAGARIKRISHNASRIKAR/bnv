@@ -21,7 +21,7 @@ const UserForm = ({
         uid: '-1',
         name: 'profile-image',
         status: 'done',
-        url: `http://localhost:5000${initialValues.profileImage}`,
+        url: `https://bnv-zscq.onrender.com${initialValues.profileImage}`,
       },
     ] : [];
     // eslint-disable-next-line react-hooks/set-state-in-effect
