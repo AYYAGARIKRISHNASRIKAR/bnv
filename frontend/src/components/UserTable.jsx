@@ -2,6 +2,8 @@ import React from 'react';
 import { Table, Avatar, Tag, Button, Space, Popconfirm } from 'antd';
 import { EyeOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL.replace('/api', '');
+
 const UserTable = ({
   users,
   loading,
@@ -17,7 +19,9 @@ const UserTable = ({
     {
       title: 'ID',
       render: (_, __, index) => (
-        <span className="text-xs text-gray-500">{(currentPage - 1) * pageSize + index + 1}</span>
+        <span className="text-xs text-gray-500">
+          {(currentPage - 1) * pageSize + index + 1}
+        </span>
       ),
     },
     {
@@ -26,7 +30,7 @@ const UserTable = ({
       render: (_, record) => (
         <Space>
           <Avatar
-            src={record.profileImage ? `http://localhost:5000${record.profileImage}` : null}
+            src={record.profileImage ? `${API_BASE}${record.profileImage}` : null}
             size="small"
             style={{ backgroundColor: '#1890ff' }}
           >
@@ -68,13 +72,11 @@ const UserTable = ({
             type="text"
             icon={<EyeOutlined />}
             onClick={() => onView(record)}
-            title="View"
           />
           <Button
             type="text"
             icon={<EditOutlined />}
             onClick={() => onEdit(record)}
-            title="Edit"
           />
           <Popconfirm
             title="Are you sure you want to delete this user?"
@@ -86,7 +88,6 @@ const UserTable = ({
               type="text"
               danger
               icon={<DeleteOutlined />}
-              title="Delete"
             />
           </Popconfirm>
         </Space>
@@ -102,8 +103,8 @@ const UserTable = ({
       rowKey="_id"
       pagination={{
         current: currentPage,
-        total: total,
-        pageSize: pageSize,
+        total,
+        pageSize,
         onChange: onPageChange,
         showSizeChanger: false,
         showQuickJumper: true,
