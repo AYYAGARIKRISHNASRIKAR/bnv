@@ -20,6 +20,16 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'User Management API is running' });
 });
 
-app.use(errorHandler);
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://bnv-1pam.vercel.app/"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
 
 module.exports = app;
